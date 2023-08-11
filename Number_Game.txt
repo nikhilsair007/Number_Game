@@ -1,0 +1,73 @@
+import java.util.*;
+
+class Number_Game {
+    public int random_num;
+    public int score = 100;
+    public int input_num;
+    private Scanner sc = new Scanner(System.in);
+
+    Number_Game() {
+        Random rand = new Random();
+        this.random_num = rand.nextInt(100);
+    }
+
+    void userInput() {
+        System.out.print("Enter your number: ");
+        input_num = sc.nextInt();
+        isCorrect(input_num);
+    }
+
+    boolean isCorrect(int n) {
+        if (n == random_num) {
+            System.out.println("Wow, you guessed it right! Your score is " + score + " out of 100 because you used "
+                    + (100 - score) / 10 + " attempts");
+            playAgain();
+            return true;
+        }
+
+        score -= 10;
+        if (score == 0) {
+            System.out.println("You have reached the maximum limit of guesses (10). Better luck next time.");
+            playAgain();
+            return true;
+        }
+
+        int absoluteDifference = Math.abs(random_num - input_num);
+
+        if (random_num < input_num) {
+            System.out.print("Your guessed number is too high. ");
+        } else {
+            System.out.print("Your guessed number is too low. ");
+        }
+
+        if (absoluteDifference > 20) {
+            System.out.println();
+        } else if (absoluteDifference > 10) {
+            System.out.println("The Absolute difference is below 21 and above 10.");
+        } else if (absoluteDifference > 5) {
+            System.out.println("The Absolute difference is below 11 and above 5.");
+        } else {
+            System.out.println("The Absolute difference is just below 6.");
+        }
+
+        userInput();
+        return false;
+    }
+
+    void playAgain() {
+        System.out.print("Do you want to play again? (yes/no): ");
+        String ans = sc.next();
+        if (ans.equals("yes")) {
+            score = 100;
+            random_num = new Random().nextInt(100);
+            userInput();
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Number_Game a = new Number_Game();
+        a.userInput();
+    }
+}
